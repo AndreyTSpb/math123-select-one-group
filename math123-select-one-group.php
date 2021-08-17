@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Math123 Select One Group
  * Description: WordPress плагин для вызова модалки с выбором групп. Шорт-код для создание кнопки [math123_btn_rec_to_group subject=1]record[/math123_btn_rec_to_group] в качестве параметров можно передавать subject. Обращается AJAX`ом в бд для получения данных о площадке
- * Plugin URI: https://
+ * Plugin URI: https://github.com/AndreyTSpb/math123-select-one-group
  * Author: Andrey Tynyany
  * Version: 1.0.1
  * Author URI: http://tynyany.ru
