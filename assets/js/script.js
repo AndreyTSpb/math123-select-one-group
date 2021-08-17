@@ -145,6 +145,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log('error');
                     }
                 });
+            }else{
+                start_select();
             }
         }
 
@@ -176,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
          */
         function start_select() {
 
-            console.log('user: '+id_user+', stud: '+id_stud+', klass: '+stud_klass);
+            //console.log('user: '+id_user+', stud: '+id_stud+', klass: '+stud_klass);
 
             let spinner = modal.querySelector('.spinner-border');
             //скроем форму
@@ -313,50 +315,62 @@ document.addEventListener('DOMContentLoaded', function() {
          *  Получение типов групп
          */
         function get_type_list(spinner, form) {
-            $.ajax({
-                type: 'POST',
-                url: baseUrl + 'rest_api/index.php',
-                data: {
-                    router: 'type_list',
-                    subject: id_subject,
-                    id_type: id_type,
-                    stud_klass: stud_klass,
-                    id_user: id_user,
-                    id_location: id_location,
-                    id_stud: id_stud
-                },
-                success: function (html) {
-                    console.log('user: '+id_user+', stud: '+id_stud+', klass: '+stud_klass+' id_subject: '+id_subject+' id_type: '+id_type+' ');
-                    console.log(html);
-                    spinner.style.display = "none";//скрываем спинер
-
-                    form.style.display = 'block'; //показывем селекторы
-
-                    //add in form div.location
-                    let sel_list_type = form.querySelector('.type');
-                    sel_list_type.innerHTML = selector_html(html, 'type_'+id_modal, 'type');
-
-                    //let select_list_klass = modal.querySelector('#'+'klass_'+id_modal);
-                    let list_type = sel_list_type.querySelector('select');
-
-                    //list_type.disabled = false;
-
-                    list_type.addEventListener("change", function(){
-                    // //     // Если нужно value
-                    // //     // input.value = this.value;
-                    // //     // Если нужен текст
-                          id_type = this.value;
-                    // //     //вызов
-                    // //     //get_teachers_list(id_modal, id_subject, id_location, id_class);
-                    // //     get_schedule_list(id_modal, id_subject, id_location, id_class, id_type);
-
-                         select_location();
-                    });
-
-                }, error: function (jqXHR, exception) {
-                    view_errors(jqXHR, exception);
-                }
-            });
+            /**
+             * Проверяем есть ли инпут с названием type
+             */
+            let input_type = form.querySelector('input[name="type"]').value;
+            if(input_type != null){
+                id_type = input_type;
+                spinner.style.display = "none";//скрываем спинер
+                form.style.display = 'block'; //показывем селекторы
+                //вызов
+                select_location();
+            }else{
+                $.ajax({
+                    type: 'POST',
+                    url: baseUrl + 'rest_api/index.php',
+                    data: {
+                        router: 'type_list',
+                        subject: id_subject,
+                        id_type: id_type,
+                        stud_klass: stud_klass,
+                        id_user: id_user,
+                        id_location: id_location,
+                        id_stud: id_stud
+                    },
+                    success: function (html) {
+                        console.log('user: '+id_user+', stud: '+id_stud+', klass: '+stud_klass+' id_subject: '+id_subject+' id_type: '+id_type+' ');
+                        console.log(html);
+                        spinner.style.display = "none";//скрываем спинер
+    
+                        form.style.display = 'block'; //показывем селекторы
+    
+                        //add in form div.location
+                        let sel_list_type = form.querySelector('.type');
+                        sel_list_type.innerHTML = selector_html(html, 'type_'+id_modal, 'type');
+    
+                        //let select_list_klass = modal.querySelector('#'+'klass_'+id_modal);
+                        let list_type = sel_list_type.querySelector('select');
+    
+                        //list_type.disabled = false;
+    
+                        list_type.addEventListener("change", function(){
+                        // //     // Если нужно value
+                        // //     // input.value = this.value;
+                        // //     // Если нужен текст
+                              id_type = this.value;
+                        // //     //вызов
+                        // //     //get_teachers_list(id_modal, id_subject, id_location, id_class);
+                        // //     get_schedule_list(id_modal, id_subject, id_location, id_class, id_type);
+    
+                             select_location();
+                        });
+    
+                    }, error: function (jqXHR, exception) {
+                        view_errors(jqXHR, exception);
+                    }
+                });
+            }
         }
         /**
          * Получение списка возможных дней и времени

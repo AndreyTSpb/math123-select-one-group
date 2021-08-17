@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Math123 Select One Group
- * Description: WordPress плагин для вызова модалки с выбором групп. Шорт-код для создание кнопки [math123_btn_rec_to_group subject=1]record[/math123_btn_rec_to_group] в качестве параметров можно передавать subject. Обращается AJAX`ом в бд для получения данных о площадке
+ * Description: WordPress плагин для вызова модалки с выбором групп. Шорт-код для создание кнопки [math123_btn_rec_to_group subject=1 type=1 ]record[/math123_btn_rec_to_group] в качестве параметров можно передавать subject. Обращается AJAX`ом в бд для получения данных о площадке
  * Plugin URI: https://github.com/AndreyTSpb/math123-select-one-group
  * Author: Andrey Tynyany
  * Version: 1.0.1
@@ -53,11 +53,24 @@ function math123_btn_rec_to_group($atts, $content){
      */
     $group_select_data['action_url'] = 'https://user.math123.ru/groupsales';
 
+    /**
+     * Предмет
+     */
     if(isset($atts['subject']) AND !empty($atts['subject'])){
         $group_select_data['subject'] = $atts['subject'];
     }else{
         $group_select_data['subject'] = 1;
     }
+    
+    /**
+     * Тип группы
+     */
+    if(isset($atts['type']) AND !empty($atts['type'])){
+        $group_select_data['type'] = (int)$atts['type'];
+    }else{
+        $group_select_data['type'] = false;
+    }
+
     //добавление названия кнопки
     if(isset($content) and !empty($content)){
         $group_select_data['title'] = $content;
@@ -117,8 +130,8 @@ function math123_select_one_group_html(){
 
 function math123_select_one_group_script(){
     //code
-    global $progress_data;
-    $js_data =$progress_data['subject'];
+    global $group_select_data;
+    $js_data =$group_select_data['subject'];
     /**
      * регистрация скриптов
      */

@@ -30,11 +30,16 @@
 
                         </div>
                         <input type="hidden" class="id_subject" name="id_subject" value="<?=$data['subject']?>">
+                        <?php if($data['type']):?>
+                            <input type="hidden" class="type" name="type" value="<?=$data['type']?>"> 
+                        <?php else:?>
                         <div class="select type">
                             <select name="" id="" onchange="this.style.color='black'" disabled>
                                 <option value="" style="display:none">Тип группы</option>
                             </select>
                         </div>
+                        <?php endif;?>
+                        
                         <div class="select locations">
                             <select name="" id="" onchange="this.style.color='black'" disabled>
                                 <option value="" style="display:none">Площадка</option>
