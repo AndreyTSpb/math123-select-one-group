@@ -7,7 +7,7 @@
  */
 ?>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-green btn-record-to-groups" data-bs-toggle="modal" data-bs-target="#modal_record_<?=$data['key_btn']?>">
+<button type="button" class="btn-sub btn-record-to-groups" data-bs-toggle="modal" data-bs-target="#modal_record_<?=$data['key_btn']?>">
     <?=$data['title'];?>
 </button>
 
